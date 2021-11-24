@@ -38,9 +38,11 @@
     $contentType = 'application/json'; // string | Content type.
     $clientRequestId = guidv4(); // string | A client-generated ID for request tracking and signature creation, unique per request.  This is also used for idempotency control. We recommend 128-bit UUID format.
     $apiKey = 'UhVgbPN3tWWhB6fz9n2ulvwPu7iaXika'; // string | Key given to merchant after boarding associating their requests with the appropriate app in Apigee.
-    $timestamp = 56; // int | Epoch timestamp in milliseconds in the request from a client system. Used for Message Signature generation and time limit (5 mins).
+    $timestamp = time(); // int | Epoch timestamp in milliseconds in the request from a client system. Used for Message Signature generation and time limit (5 mins).
     $accessTokenRequest = new \FirstData\FirstApi\Client\Model\AccessTokenRequest(); // \FirstData\FirstApi\Client\Model\AccessTokenRequest | Access token request
     $messageSignature = msg_sig($apiKey, $clientRequestId, $timestamp, $apiSecret, $accessTokenRequest -> __toString()); // string | Used to ensure the request has not been tampered with during transmission. The Message-Signature is the Base64 encoded HMAC hash (SHA256 algorithm with the API Secret as the key.) For more information, refer to the supporting documentation on the Developer Portal.    
+
+    echo 'Content Type: '.$contentType.'<br><br>'.'Client Request ID: '.$clientRequestId.'<br><br>'.'API Key: '.$apiKey.'<br><br>'.'Timestamp: '.$timestamp.'<br><br>'.'Access Token Request: '.$accessTokenRequest.'<br><br>'.'Message Signature: '.$messageSignature.'<br><br>';
     
     try {
         $result = $apiInstance->authenticationAccessTokensPost($contentType, $clientRequestId, $apiKey, $timestamp, $accessTokenRequest, $messageSignature);
