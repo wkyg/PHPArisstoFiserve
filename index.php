@@ -1,7 +1,11 @@
 <?php
     require_once(__DIR__ . '/vendor/autoload.php');
 
+    //C:\xampp\htdocs\PHPArisstoFiserve\vendor\first-data\gateway\src\Configuration.php
+
     $apiSecret = 'Kqhlqrca1ADeO0fvxiGcMGoMh31Tmw2wGpukLHwN7UZ';
+
+    //$Configuration = new Configuration();
 
     function guidv4($data = null) {
         // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
@@ -44,9 +48,11 @@
     //$accessTokenRequest -> setDomain('somedomain.com');
     //$accessTokenRequest -> setToken('gfgF92JHDJFjxcJHCQ23IbI12D');
     //$accessTokenRequest -> setPublicKeyRequired('false');
-    $messageSignature = msg_sig($apiKey, $clientRequestId, $timestamp, $apiSecret, $accessTokenRequest -> __toString()); // string | Used to ensure the request has not been tampered with during transmission. The Message-Signature is the Base64 encoded HMAC hash (SHA256 algorithm with the API Secret as the key.) For more information, refer to the supporting documentation on the Developer Portal.    
+    $messageSignature = msg_sig($apiKey, $clientRequestId, $timestamp, $apiSecret, $accessTokenRequest); // string | Used to ensure the request has not been tampered with during transmission. The Message-Signature is the Base64 encoded HMAC hash (SHA256 algorithm with the API Secret as the key.) For more information, refer to the supporting documentation on the Developer Portal.    
 
-    echo 'Content Type: '.$contentType.'<br><br>'.'Client Request ID: '.$clientRequestId.'<br><br>'.'API Key: '.$apiKey.'<br><br>'.'Timestamp: '.$timestamp.'<br><br>'.'Access Token Request: '.$accessTokenRequest.'<br><br>'.'Message Signature: '.$messageSignature.'<br><br>';
+    echo 'Content Type: '.$contentType.'<br><br>'.'Client Request ID: '.$clientRequestId.'<br><br>'.'API Key: '.$apiKey.'<br><br>'.'Timestamp: '.$timestamp.'<br><br>'.'Access Token Request: '.$accessTokenRequest -> __toString().'<br><br>'.'Message Signature: '.$messageSignature.'<br><br>';
+
+    //$accessTokenRequest -> valid();   
     
     try {
         $result = $apiInstance->authenticationAccessTokensPost($contentType, $clientRequestId, $apiKey, $timestamp, $accessTokenRequest, $messageSignature);
