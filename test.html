@@ -1,0 +1,22 @@
+<html>
+<head><title>IPG Connect Sample for ASP</title></head>
+<body>
+<p><h1>Order Form</h1></p>
+<form method="post" action=" https://test.ipg-online.com/connect/gateway/processing ">
+    <input type="hidden" name="txntype" value="sale">
+    <input type="hidden" name="checkoutoption" value="combinedpage">
+    <input type="hidden" name="timezone" value="Europe/Berlin"/>
+    <input type="hidden" name="txndatetime" value="<% getDateTime() %>"/>
+    <input type="hidden" name="hash_algorithm" value="HMACSHA256"/>
+    <input type="hidden" name="hashExtended" value="<% call createExtendedHash( "13.00","978" ) %>"/>
+    <input type="hidden" name="storename" value="110995000" />
+    <input type="hidden" name="mode" value="payonly"/>
+    <input type="hidden" name="paymentMethod" value="V"/>
+    <input type="text" name="chargetotal" value="13.00" />
+    <input type="hidden" name="currency" value="978"/>
+    <input type="hidden" name="authenticateTransaction" value="true"/>
+    <input type="text" name="threeDSRequestorChallengeIndicator" value=”1”/>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
