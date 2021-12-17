@@ -1,87 +1,69 @@
 <?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-$apiInstance = new FirstData\FirstApi\Client\Api\AuthenticationApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
-);
-$contentType = 'application/json'; // string | Content type.
-$clientRequestId = 'clientRequestId_example'; // string | A client-generated ID for request tracking and signature creation, unique per request.  This is also used for idempotency control. We recommend 128-bit UUID format.
-$apiKey = 'csn5gVMfGgXh1cnFtimlHQOH1zNERw7Q'; // string | Key given to merchant after boarding associating their requests with the appropriate app in Apigee.
-$timestamp = timestamp(); // int | Epoch timestamp in milliseconds in the request from a client system. Used for Message Signature generation and time limit (5 mins).
-$accessTokenRequest = new \FirstData\FirstApi\Client\Model\AccessTokenRequest(); // \FirstData\FirstApi\Client\Model\AccessTokenRequest | Access token request
-$messageSignature = 'messageSignature_example'; // string | Used to ensure the request has not been tampered with during transmission. The Message-Signature is the Base64 encoded HMAC hash (SHA256 algorithm with the API Secret as the key.) For more information, refer to the supporting documentation on the Developer Portal.
-
-try {
-    $result = $apiInstance->authenticationAccessTokensPost($contentType, $clientRequestId, $apiKey, $timestamp, $accessTokenRequest, $messageSignature);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling AuthenticationApi->authenticationAccessTokensPost: ', $e->getMessage(), PHP_EOL;
-}
-
 /*
-    require_once(__DIR__ . '/vendor/autoload.php');
-
-    //C:\xampp\htdocs\PHPArisstoFiserve\vendor\first-data\gateway\src\Configuration.php
+    require_once('vendor\autoload.php');
 
     $apiSecret = 'Kqhlqrca1ADeO0fvxiGcMGoMh31Tmw2wGpukLHwN7UZ';
-
-    //$Configuration = new Configuration();
-
-    function guidv4($data = null) {
-        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
-        $data = $data ?? random_bytes(16);
-        assert(strlen($data) == 16);
-
-        // Set version to 0100
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
-        // Set bits 6-7 to 10
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-
-        // Output the 36 character UUID.
-        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
-    }
-
-    function timestamp(){
-        $mt = explode(' ', microtime());
-        $ts = ((int)$mt[1]) * 1000 + ((int)round($mt[0] * 1000));    
-        return $ts;
-    }
-
-    function msg_sig($apikey, $uid, $tm, $apisec, $json){                        
-        $msg = $apikey . $uid . $tm. $apisec. $json;
-        $hmac = hash_hmac('sha256', $msg, $apisec);
-        $messageSignature = base64_encode($hmac);
-        return $messageSignature;
-    }
-
-    $apiInstance = new FirstData\FirstApi\Client\Api\AuthenticationApi(
-        // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-        // This is optional, `GuzzleHttp\Client` will be used as default.
-        new GuzzleHttp\Client()
-    ); 
-
-    $contentType = 'application/json'; // string | Content type.
-    $clientRequestId = guidv4(); // string | A client-generated ID for request tracking and signature creation, unique per request.  This is also used for idempotency control. We recommend 128-bit UUID format.
-    $apiKey = 'UhVgbPN3tWWhB6fz9n2ulvwPu7iaXika'; // string | Key given to merchant after boarding associating their requests with the appropriate app in Apigee.
-    $timestamp = time(); // int | Epoch timestamp in milliseconds in the request from a client system. Used for Message Signature generation and time limit (5 mins).
-    $accessTokenRequest = new \FirstData\FirstApi\Client\Model\AccessTokenRequest(); // \FirstData\FirstApi\Client\Model\AccessTokenRequest | Access token request
-    //$accessTokenRequest -> setDomain('somedomain.com');
-    //$accessTokenRequest -> setToken('gfgF92JHDJFjxcJHCQ23IbI12D');
-    //$accessTokenRequest -> setPublicKeyRequired('false');
-    $messageSignature = msg_sig($apiKey, $clientRequestId, $timestamp, $apiSecret, $accessTokenRequest); // string | Used to ensure the request has not been tampered with during transmission. The Message-Signature is the Base64 encoded HMAC hash (SHA256 algorithm with the API Secret as the key.) For more information, refer to the supporting documentation on the Developer Portal.    
-
-    echo 'Content Type: '.$contentType.'<br><br>'.'Client Request ID: '.$clientRequestId.'<br><br>'.'API Key: '.$apiKey.'<br><br>'.'Timestamp: '.$timestamp.'<br><br>'.'Access Token Request: '.$accessTokenRequest -> __toString().'<br><br>'.'Message Signature: '.$messageSignature.'<br><br>';
-
-    //$accessTokenRequest -> valid();   
+    $apiKey = 'UhVgbPN3tWWhB6fz9n2ulvwPu7iaXika';
+    $apiBasePath = 'https://prod.api.firstdata.com/gateway/v2';
+    $defaultRegion = 'MY';
+    $defaultStoreId = '4945018794';   
     
-    try {
-        $result = $apiInstance->authenticationAccessTokensPost($contentType, $clientRequestId, $apiKey, $timestamp, $accessTokenRequest, $messageSignature);
-        print_r($result);
-    } catch (Exception $e) {  
-        echo $e->getMessage();          
-    }
+    $cred = new FirstData\FirstApi\Client\Simple\MerchantCredentials($apiSecret, $apiKey);
+    $config = new FirstData\FirstApi\Client\Configuration();
+    $headerSel = new FirstData\FirstApi\Client\HeaderSelector();
+    $clientctx = new FirstData\FirstApi\Client\Simple\ClientContext(new GuzzleHttp\Client(), $config, $headerSel, $cred);
+    $auth = new FirstData\FirstApi\Client\Simple\AuthenticationApi($clientctx);
+    $acstokreqs = new FirstData\FirstApi\Client\Model\AccessTokenRequest();      
+
+    echo $cred -> getApiSecret();
+    echo '<br><br>';
+    echo $cred -> getApiKey();
+    echo '<br><br>';
+    echo $auth -> getAccessToken($acstokreqs);
+    echo '<br><br>';
 */
+    function getDateTime() {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $dateTime = date("Y:m:d-H:i:s");
+        return $dateTime;
+    }
+
+    $ref = 'int_test';//$_REQUEST['ref'];
+    $amt = '0.00';//$_REQUEST['amt'];
+
+    $url = 'https://www4.ipg-online.com/connect/gateway/processing';
+    $storeId = "4945018794";
+    $sharedSecret = "u5ae7rasBT";
+    $ref = $ref.'_'.date("ymdis");
+    $amt = number_format((float)$amt, 2, '.', '');
+    $currency = "458";
+    $stringToHash = $storeId . getDateTime() . $amt . $currency . $sharedSecret;
+    $ascii = bin2hex( $stringToHash );
+    $hashKey = hash( "sha256", $ascii );
+
+    $detail = '<h3>Update Detail</h3><br/>';
+    $detail .= '<table class="gate" align="center" width="100%">
+    {detail}
+    <tr><td>Reference No</td><td>'.$ref.'</td></tr></table>';
+    //$detail .= '<br/><p>'.__('Thank you for your submission, please click "Update Card" to proceed.').'</p>';
+    
+    $form = '<form method="post" action="' . $url . '">
+        <input type="hidden" name="checkoutoption" value="combinedpage">
+        <input type="hidden" name="txntype" value="sale">
+        <input type="hidden" name="timezone" value="Asia/Kuala_Lumpur"/>
+        <input type="hidden" name="txndatetime" value="' . getDateTime() . '"/>
+        <input type="hidden" name="hash_algorithm" value="SHA256"/>
+        <input type="hidden" name="hash" value="' . $hashKey . '"/>
+        <input type="hidden" name="storename" value="' . $storeId . '"/>
+        <input type="hidden" name="mode" value="payonly"/>
+        <input type="hidden" name="chargetotal" value="' . $amt . '"/>
+        <input type="hidden" name="currency" value="' . $currency . '"/>
+        <input type="hidden" name="oid" value="' . $ref . '"/>
+        <input type="hidden" name="assignToken" value="true"/>
+        <input type="hidden" name="responseSuccessURL" value="https://arissto.com/my/firstdata-token-update-success"/>
+        <input type="hidden" name="responseFailURL" value="https://arissto.com/my/firstdata-token-update-fail/"/>
+        <input type="submit" value="Update Card">
+    </form>';
+
+    echo $form;
 ?>
